@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Products = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [error, setError] = useState(null);
   const [activeElement, setActiveElement] = useState("");
   const [selectedColor, setSelectedColor] = useState("Black"); // Default selected color
