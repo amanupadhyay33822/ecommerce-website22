@@ -22,7 +22,7 @@ const Signup = () => {
   const handleSignup = async () => {
     try {
      
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/signup`, userData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/signup`, userData);
 
       if (response.status === 200) {
         
