@@ -55,10 +55,11 @@ const Main_page = () => {
                   </div>
         <AiOutlineClose className='right-0 absolute text-gray-400 cursor-pointer' style={{ fontSize: '24px' }} onClick={showDiscount}/>
       </div>):(null)}
-      <Navbar onCartClick={toggleCart} />
-      <Cart isOpen={isCartOpen} onClose={toggleCart} />
+     
       {!showmore ? (
         <>
+           <Navbar onCartClick={toggleCart} />
+      <Cart isOpen={isCartOpen} onClose={toggleCart} />
       <div className=' mx-48 w-[1120px]'>
         <Carousel data-bs-theme="light" className="custom-carousel" style={{ height: '500px' }}>
           <Carousel.Item style={{ height: '536px' }}>
