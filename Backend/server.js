@@ -28,12 +28,12 @@ app.get('/', (req, res) => {
 
 
 
-// app.use("/cart", cartRoutes);
-// app.use("/auth", userRoutes);
-// app.use("/profile", profileRoutes);
-// app.use("/product", productRoutes);
-// app.use("/cart", cartRoutes);
-// app.use("/order", orderRoutes);
+app.use("/cart", cartRoutes);
+app.use("/auth", userRoutes);
+app.use("/profile", profileRoutes);
+app.use("/product", productRoutes);
+app.use("/cart", cartRoutes);
+app.use("/order", orderRoutes);
 
 
 
