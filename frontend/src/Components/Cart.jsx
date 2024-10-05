@@ -150,7 +150,7 @@ const handlecheckout = () => {
               className="w-full bg-black text-white py-2 rounded mb-2 hover:bg-blue-700 transition-colors"
               onClick={() => {
                 alert('Proceeding to checkout!');
-                handlecheckout
+                navigate('/booking')
               }}
             >
               Checkout
