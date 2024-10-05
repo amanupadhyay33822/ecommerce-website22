@@ -24,7 +24,7 @@ const Products = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}product/get/670002caee5da4e11787fe9a`
+          `${process.env.REACT_APP_BACKEND_URL}/product/get/670002caee5da4e11787fe9a`
         );
         if (response.data.success) {
           setProduct(response.data.product);
@@ -48,7 +48,7 @@ const Products = () => {
   const addToWishlist = async (productId) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}product/addToWishlist`, // Update with your actual API endpoint
+        `${process.env.REACT_APP_BACKEND_URL}/product/addToWishlist`, // Update with your actual API endpoint
         { productId },
         {
           headers: {
@@ -89,7 +89,7 @@ const Products = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}cart/add`,
+        `${process.env.REACT_APP_BACKEND_URL}/cart/add`,
         cartItem,
         {
           headers: {
