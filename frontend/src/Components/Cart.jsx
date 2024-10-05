@@ -14,7 +14,7 @@ const Cart = ({ isOpen, onClose }) => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}cart/get`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/get`, {
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
           },
