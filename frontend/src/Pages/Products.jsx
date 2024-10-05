@@ -20,6 +20,10 @@ const Products = () => {
   const [cart, setCart] = useState([]); 
   const [isWishlisted, setIsWishlisted] = useState(false);// Cart state
   const navigate = useNavigate();
+   const toggleCart = () => {
+    
+    setIsCartOpen(!isCartOpen);
+  };
   // Fetch product from API
   useEffect(() => {
     const fetchProduct = async () => {
