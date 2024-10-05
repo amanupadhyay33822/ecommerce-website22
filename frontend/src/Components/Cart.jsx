@@ -13,7 +13,11 @@ const Cart = ({ isOpen, onClose }) => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}cart/get`); // Replace with your actual API endpoint
+       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}order/create`, orderData, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      }); // Replace with your actual API endpoint
         setCartItems(response.data); // Assuming your API returns an array of cart items
       } catch (error) {
         console.error('Error fetching cart items:', error);
