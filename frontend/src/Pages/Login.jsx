@@ -24,7 +24,7 @@ const Login = () => {
             Cookies.set('token', response.data.token, { expires: 7 });
             if (response.status === 200) {
                 toast.success('Login successful! Redirecting to home...',{
-                    position: toast.POSITION.TOP_CENTER,
+                   position: 'top-center',  // Use string for position
                     autoClose: 3000,
                   });
                 navigate('/home');
