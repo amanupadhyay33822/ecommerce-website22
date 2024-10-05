@@ -46,10 +46,11 @@ const Shop = () => {
 
   return (
     <div>
-      <Navbar onCartClick={toggleCart} />
-      <Cart isOpen={isCartOpen} onClose={toggleCart} />
+      
       {!showmore ? (
       <>
+        <Navbar onCartClick={toggleCart} />
+      <Cart isOpen={isCartOpen} onClose={toggleCart} />
       <div className="relative">
         <div className='mx-48 w-[1120px]'>
           <img src={home_shop} alt='' className='w-full h-auto' />
