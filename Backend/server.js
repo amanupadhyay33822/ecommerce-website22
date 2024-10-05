@@ -10,7 +10,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { connect } = require("./db/dbconfig");
 dotenv.config();
-const PORT = 8081;
+const PORT = process.env.PORT || 5000;
 
 
 //middlewares
