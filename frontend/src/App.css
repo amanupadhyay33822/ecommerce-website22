@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.main-container {
+  display: flex;
+  
+ 
+}
+.main-container img {
+  width: 100%; 
+  
+}
+
+
+
+.chair-image {
+  position: relative;
+}
+
+.logo-container {
+  position: absolute;
+  top: 20px; 
+  left: 50%;
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+
+
+
+.custom-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%); 
+  background-color: rgba(255, 255, 255, 0.5); 
+  border-radius: 50%; 
+  width: 40px; 
+  height: 40px; 
+}
+
+.custom-carousel .carousel-control-prev-icon,
+.custom-carousel .carousel-control-next-icon {
+  filter: invert(1); 
+}
+
+.custom-carousel .carousel-indicators [data-bs-target] {
+  background-color: rgba(255, 255, 255, 0.5); 
+  border-radius: 50%; 
+  width: 8px; 
+  height: 8px; 
+  transition: all 0.3s ease; 
+}
+
+.custom-carousel .carousel-indicators .active {
+  background-color: white; 
+  border-radius: 20px; 
+  width: 30px; 
+  height: 8px; 
+}
+
+
+.scrollbar-custom {
+  scrollbar-width: thin; 
+  scrollbar-color:black #edf2f7; 
+  
+}
+
+.image-gallery::-webkit-scrollbar {
+  width: 5px; 
+  height: 5px; 
+  margin-top: 10px;
+}
+
+.image-gallery::-webkit-scrollbar-thumb {
+  background-color: black; 
+  border-radius: 4px; 
+}
+
+.image-gallery::-webkit-scrollbar-track {
+  background-color: #f0f0f0; 
+}
