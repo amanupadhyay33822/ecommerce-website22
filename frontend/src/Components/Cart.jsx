@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import Cookies from 'js-cookie'
 import axios from 'axios';  // Import axios
 import cart1 from "../asserts/images/cart1.png"
 import cart2 from "../asserts/images/cart2.png"
