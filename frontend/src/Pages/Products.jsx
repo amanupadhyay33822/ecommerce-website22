@@ -4,6 +4,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { GoStarFill, GoHeart ,GoHeartFill} from "react-icons/go";
 import { TECollapse } from "tw-elements-react";
 import { Link } from "react-router-dom";
+import Navbar from '../Components/Navbar';
+import Cart from "../Components/Cart"
 import cart1 from "../asserts/images/cart1.png";
 import cart2 from "../asserts/images/cart2.png";
 import cart3 from "../asserts/images/cart_color3.png";
