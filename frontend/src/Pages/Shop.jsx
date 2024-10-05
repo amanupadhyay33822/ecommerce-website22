@@ -46,8 +46,8 @@ const Shop = () => {
 
   return (
     <div>
-      {/* <Navbar onCartClick={toggleCart} />
-      <Cart isOpen={isCartOpen} onClose={toggleCart} /> */}
+      <Navbar onCartClick={toggleCart} />
+      <Cart isOpen={isCartOpen} onClose={toggleCart} />
       {!showmore ? (
       <>
       <div className="relative">
