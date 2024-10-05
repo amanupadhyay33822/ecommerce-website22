@@ -26,12 +26,12 @@ app.use(
 );
 
 
-app.use('/api/v1/cart', cartRoutes);
-app.use("/api/v1/auth", userRoutes);
-app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/product", productRoutes);
-app.use("/api/v1/cart", cartRoutes);
-app.use("/api/v1/order", orderRoutes);
+app.use('/cart', cartRoutes);
+app.use("/auth", userRoutes);
+app.use("/profile", profileRoutes);
+app.use("/product", productRoutes);
+app.use("/cart", cartRoutes);
+app.use("/order", orderRoutes);
 
 
 
