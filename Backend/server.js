@@ -18,12 +18,13 @@ app.use(express.json());
 app.use(cookieParser());
 connect();
 
-app.use(
-	cors({
-		origin: "https://ecommerce-website-liard-mu.vercel.app/",
-		credentials: true,
-	})
-);
+app.use(cors());
+
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 
 
 app.use('/cart', cartRoutes);

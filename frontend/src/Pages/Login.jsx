@@ -23,13 +23,13 @@ const Login = () => {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, userData);
             Cookies.set('token', response.data.token, { expires: 7 });
             if (response.status === 200) {
-                // Notify success and redirect to homepage upon successful login
+                
                 toast.success('Login successful! Redirecting to home...');
                 navigate('/home');
             }
         } catch (err) {
             setError('Login failed. Please check your credentials and try again.');
-            toast.error('Login failed. Please check your credentials and try again.'); // Notify error
+            toast.error('Login failed. Please check your credentials and try again.'); 
         }
     };
 
