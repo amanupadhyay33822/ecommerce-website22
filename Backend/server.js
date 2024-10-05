@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const userRoutes = require("./routes/User");
-const profileRoutes = require("./routes/Profile");
-const productRoutes = require("./routes/Product");
+// const userRoutes = require("./routes/User");
+// const profileRoutes = require("./routes/Profile");
+// const productRoutes = require("./routes/Product");
 const cookieParser = require("cookie-parser");
-const cartRoutes = require('./routes/cart');
-const orderRoutes = require('./routes/order');
+// const cartRoutes = require('./routes/cart');
+// const orderRoutes = require('./routes/order');
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { connect } = require("./db/dbconfig");
@@ -28,12 +28,12 @@ app.get('/', (req, res) => {
 
 
 
-app.use("/cart", cartRoutes);
-app.use("/auth", userRoutes);
-app.use("/profile", profileRoutes);
-app.use("/product", productRoutes);
-app.use("/cart", cartRoutes);
-app.use("/order", orderRoutes);
+// app.use("/cart", cartRoutes);
+// app.use("/auth", userRoutes);
+// app.use("/profile", profileRoutes);
+// app.use("/product", productRoutes);
+// app.use("/cart", cartRoutes);
+// app.use("/order", orderRoutes);
 
 
 
