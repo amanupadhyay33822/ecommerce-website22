@@ -19,7 +19,7 @@ const Cart = ({ isOpen, onClose }) => {
             Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
           },
         }); // Replace with your actual API endpoint
-        setCartItems(response.data); // Assuming your API returns an array of cart items
+        setCartItems(response.data.items); // Assuming your API returns an array of cart items
       } catch (error) {
         console.error('Error fetching cart items:', error);
       }
