@@ -84,15 +84,15 @@ const Cart = ({ isOpen, onClose }) => {
               >
                 {/* Product Image */}
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={item.product.images}
+                  alt={item.product.name}
                   className="w-16 h-16 object-cover rounded"
                 />
 
                 {/* Product Details */}
                 <div className="flex flex-col flex-grow ml-4">
-                  <span className="font-semibold">{item.name}</span>
-                  <span className="text-gray-500 text-sm">Color: {item.color}</span>
+                  <span className="font-semibold">{item.product.name}</span>
+                  <span className="text-gray-500 text-sm">Color: {item.product.color}</span>
 
                   {/* Quantity Controls */}
                   <div className="flex items-center justify-center border-black border-1 rounded-sm w-[70px] gap-2 mt-2">
