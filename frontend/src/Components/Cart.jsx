@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Import axios
 import cart1 from "../asserts/images/cart1.png"
 import cart2 from "../asserts/images/cart2.png"
@@ -10,7 +11,7 @@ const Cart = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]); // State for cart items
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-
+const navigate = useNavigate(); 
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -46,7 +47,9 @@ const Cart = ({ isOpen, onClose }) => {
       )
     );
   };
-
+const handlecheckout = () => {
+  navigate("/booking");
+}
   const handleRemoveItem = (id) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
@@ -147,6 +150,7 @@ const Cart = ({ isOpen, onClose }) => {
               className="w-full bg-black text-white py-2 rounded mb-2 hover:bg-blue-700 transition-colors"
               onClick={() => {
                 alert('Proceeding to checkout!');
+                handlecheckout
               }}
             >
               Checkout
