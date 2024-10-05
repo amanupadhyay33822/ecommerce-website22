@@ -20,7 +20,7 @@ connect();
 
 app.use(
 	cors({
-		origin: "*",
+		origin: "https://ecommerce-website-liard-mu.vercel.app/",
 		credentials: true,
 	})
 );
