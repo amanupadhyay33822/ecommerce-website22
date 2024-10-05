@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5000;
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
-connect();
+//connect();
 
 app.use(cors());
 
