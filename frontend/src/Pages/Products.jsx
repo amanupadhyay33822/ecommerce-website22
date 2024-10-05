@@ -24,7 +24,7 @@ const Products = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/product/get/670002caee5da4e11787fe9a`
+          `${process.env.REACT_APP_BACKEND_URL}product/get/670002caee5da4e11787fe9a`
         );
         if (response.data.success) {
           setProduct(response.data.product);
