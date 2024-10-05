@@ -26,19 +26,13 @@ const Signup = () => {
 
       if (response.status === 200) {
         
-        toast.success('Signup successful! Redirecting to homepage...', {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-        });
+        toast.success('Signup successful! Redirecting to homepage...');
         
         navigate('/home');
       }
     } catch (err) {
       
-      toast.error('Signup failed. Please try again.', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-      });
+      toast.error('Signup failed. Please try again.');
       setError('Signup failed. Please try again.');
     }
   };

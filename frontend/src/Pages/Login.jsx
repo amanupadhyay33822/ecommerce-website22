@@ -23,8 +23,10 @@ const Login = () => {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, userData);
             Cookies.set('token', response.data.token, { expires: 7 });
             if (response.status === 200) {
-                
-                toast.success('Login successful! Redirecting to home...');
+                toast.success('Login successful! Redirecting to home...',{
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 3000,
+                  });
                 navigate('/home');
             }
         } catch (err) {
