@@ -8,7 +8,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}order/get`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/get`, {
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
           },
