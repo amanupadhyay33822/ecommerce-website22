@@ -121,6 +121,8 @@ const Products = () => {
 
   return (
     <div>
+      <Navbar onCartClick={toggleCart} />
+      <Cart isOpen={isCartOpen} onClose={toggleCart} />
       <div className="text-[12px] flex items-center justify-start ml-48 gap-2 mt-3 mb-3">
         Home <IoIosArrowForward /> Shop <IoIosArrowForward /> Living Room{" "}
         <IoIosArrowForward /> <b>Product</b>
