@@ -3,9 +3,11 @@ import Logo from '../asserts/images/Logo.png';
 import login_img from '../asserts/images/login_img.png';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaRegEyeSlash } from "react-icons/fa";
-import axios from 'axios'; // Import axios for making HTTP requests
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom'; 
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     const [showPwd, setShowPwd] = useState(false);
@@ -13,21 +15,21 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const [error, setError] = useState(null); // State for error handling
-    const navigate = useNavigate(); // For navigation after login
+    const [error, setError] = useState(null); 
+    const navigate = useNavigate(); 
 
     const handleLogin = async () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, userData);
-            Cookies.set('token', response.data.token,{ expires: 7 });
+            Cookies.set('token', response.data.token, { expires: 7 });
             if (response.status === 200) {
-                // Redirect to homepage upon successful login
+                // Notify success and redirect to homepage upon successful login
+                toast.success('Login successful! Redirecting to home...');
                 navigate('/home');
             }
-           
-           
         } catch (err) {
             setError('Login failed. Please check your credentials and try again.');
+            toast.error('Login failed. Please check your credentials and try again.'); // Notify error
         }
     };
 
@@ -52,7 +54,7 @@ const Login = () => {
                         <input 
                             type="text" 
                             className='outline-none border-collapse bottom-1 border-b-2 w-96 placeholder:text-md p-3' 
-                            placeholder='Your  email address'
+                            placeholder='Your email address'
                             value={userData.email}
                             onChange={(e) => setData({ ...userData, email: e.target.value })}
                         />
@@ -100,6 +102,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer /> 
         </div>
     );
 };

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 import Logo from '../asserts/images/Logo.png';
 import login_img from '../asserts/images/login_img.png';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -15,18 +17,28 @@ const Signup = () => {
     password: ''
   });
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // To redirect after successful signup
+  const navigate = useNavigate(); 
 
   const handleSignup = async () => {
     try {
-      // Using the URL from .env file
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}auth/signup`, userData);
- 
+     
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/signup`, userData);
+
       if (response.status === 200) {
-        // Redirect to homepage upon successful signup
+        
+        toast.success('Signup successful! Redirecting to homepage...', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+        });
+        
         navigate('/home');
       }
     } catch (err) {
+      
+      toast.error('Signup failed. Please try again.', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+      });
       setError('Signup failed. Please try again.');
     }
   };
@@ -94,7 +106,7 @@ const Signup = () => {
                 />
               ) : (
                 <FaRegEyeSlash
-                  className=" text-gray-500" style={{ fontSize: '20px' }}
+                  className="text-gray-500" style={{ fontSize: '20px' }}
                   onClick={() => setShowPwd(true)}
                 />
               )}
@@ -116,6 +128,9 @@ const Signup = () => {
           </div>
         </div>
       </div>
+
+ 
+      <ToastContainer />
     </div>
   );
 }
