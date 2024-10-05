@@ -22,12 +22,13 @@ app.use(cors());
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+	res.send('Hello World!');
+  });
+  
 
 
 
-app.use('/cart', cartRoutes);
+app.use("/cart", cartRoutes);
 app.use("/auth", userRoutes);
 app.use("/profile", profileRoutes);
 app.use("/product", productRoutes);
