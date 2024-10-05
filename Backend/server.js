@@ -39,6 +39,6 @@ app.use("/order", orderRoutes);
 
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/api/v1`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 module.exports = app
