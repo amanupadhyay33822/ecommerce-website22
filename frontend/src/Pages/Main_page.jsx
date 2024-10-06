@@ -140,6 +140,76 @@ const Main_page = () => {
     }
   ];
 
+
+  const products = [
+    {
+      name: "Loveseat Sofa",
+      image_url: productcard6,
+      price: {
+        current: "$199.00",
+        original: "$400.00",
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Table Lamp",
+      image_url: productcard2,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Beige Table Lamp",
+      image_url: productcard2,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Bamboo Basket",
+      image_url: productcard3,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Beige Table Lamp",
+      image_url: productcard5,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Sofa",
+      image_url: productcard6,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    }
+  ];
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showmore,setShoreMore] = useState(false)
   const [discount,setDiscount] = useState(true)
@@ -309,7 +379,11 @@ const Main_page = () => {
                       </div>
 
                       {/* Add to Cart Button */}
+<<<<<<< HEAD
                       <button className="bg-black text-white px-4 py-2 rounded-lg mt-4" onClick={() => addToCart(product.id, 1)}>
+=======
+                      <button className="bg-black text-white px-4 py-2 rounded-lg mt-4" onClick={()=>{navigate('')}}>
+>>>>>>> e8b9335187d94e7f7b87af9f2c9ac434cd905f34
                         Add to cart
                       </button>
                     </div>

@@ -59,9 +59,14 @@ const ShoppingCart = ({ onCheckout, setActiveTab }) => {
 //       console.error('Error saving cart summary:', error);
 //   }
 // };
-  const handleRemove = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
+ const handleRemove = (id) => {
+  
+  setCartItems((prevItems) => {
+    const updatedItems = prevItems.filter((item) => item._id !== id);
+   
+    return updatedItems;
+  });
+};
 
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
@@ -101,7 +106,7 @@ const ShoppingCart = ({ onCheckout, setActiveTab }) => {
                     <div>
                       <h4 className="font-semibold">{product.product.name}</h4>
                       <p className="text-sm text-gray-500">Color: {product.product.color}</p>
-                      <button className="text-sm text-gray-500 flex gap-2 items-center" onClick={() => handleRemove(product.id)}>
+                      <button className="text-sm text-gray-500 flex gap-2 items-center" onClick={() => handleRemove(product._id)}>
                         <IoCloseSharp style={{ fontSize: '25px' }} /> Remove
                       </button>
                     </div>
