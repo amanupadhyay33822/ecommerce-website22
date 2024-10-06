@@ -1,165 +1,108 @@
-import React, { useState } from 'react';
-import Navbar from '../Components/Navbar';
-import ShoppingCart from '../Components/ShoppingCart';
-import { FaCheck } from "react-icons/fa6";
-import CheckoutDetails from '../Components/CheckoutDetails';
-import OrderDetails from '../Components/OrderDetails';
-import Footer from "../Components/Footer"
-const Booking = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('Shopping cart'); 
-  const [isPlacedOrder,setPlaceOrder] = useState(false)
-  const [isCheckedOut, setIsCheckedOut] = useState(false);
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-  const handleCheckout = () => {
-    setIsCheckedOut(true);
-  };
+const OrderDetails = () => {
+  const [orderData, setOrderData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
-  const handlePlaceOrder =()=>{
-    setPlaceOrder(true)
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/order/get`,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
+            },
+          }
+        );
+
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setOrderData(response.data);
+          const cartItemsArray = response.data.flatMap(order => order.cartItems);
+          setProductData(cartItemsArray); // Combine all cartItems into one array
+        }
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
+    };
+
+    fetchOrderDetails();
+  }, []);
+
+  if (!orderData.length) {
+    return <div>Loading...</div>;
   }
 
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-    console.log("Clicked")
-    
-  };
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
   return (
-    <div >
-      <div>
-        <Navbar onCartClick={toggleCart} />
-      </div>
-      <div className='flex justify-center items-center font-semibold text-5xl mt-8 mb-8'>
-        Cart
-      </div>
-      <div className='flex flex-col justify-center items-center w-full'>
-        <div className="mb-4  ">
-          <ul
-            className="flex gap-12 -mb-px text-sm font-medium text-center"
-            id="default-tab"
-            role="tablist"
-          >
-            <li className="me-2" role="presentation">
-              <div
-                className={`inline-block p-4 border-b-2  rounded-t-lg ${
-                 (activeTab === 'Shopping cart' || isCheckedOut) ? (isCheckedOut ? 'border-green-500' : 'border-black text-black') : 'text-gray-600 border-gray-300'
-                }`}
-                //onClick={() => handleTabClick('Shopping cart')}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === 'Shopping cart'}
-              >
-                <div className=' flex gap-2 items-center justify-start'>
-                    {isCheckedOut ?(
-                        <div className='w-8 h-8 bg-green-500 flex justify-center items-center rounded-full'>
-                            <FaCheck className='text-white'/>
-                        </div>
-                        
-                    ):(
-                    <div className={`${activeTab === 'Shopping cart' ? 'bg-black' : 'bg-gray-400'} flex justify-center items-center text-white w-[30px] h-[30px] rounded-full`}>
-                        1
-                    </div>
-                    )}
-                    
+    <div className="bg-white flex flex-col justify-center items-center p-4 rounded-lg shadow-2xl w-[600px] mt-4 mb-6">
+      <h2 className="text-2xl font-bold text-center mb-4">Thank you! 🎉</h2>
+      <p className="text-center font-semibold text-3xl mb-4 w-72">
+        Your order has been received.
+      </p>
 
-                    <div className={`${isCheckedOut ? 'text-green-500 text-[17px]':''}`}>
-                        Shopping cart
-                    </div>
-                </div>
-                
+      {/* Display the products for the latest order */}
+      {productData.length > 0 ? (
+        <div className="flex justify-center gap-4">
+          {productData.map((item, index) => {
+            // Find the matching order for this product and extract the quantity
+            const order = orderData.find(order =>
+              
+              order.cartItems.some(cartItem => cartItem._id === item._id)
+            );
+            const quantity = order
+              ? order.cartItems.find(cartItem => cartItem._id === item._id).quantity
+              : 0;
+
+            return (
+              <div key={index} className="relative flex flex-col items-center">
+                <img
+                  src={item.images} // Assuming the image field is in item
+                  alt={item.name}
+                  className="w-24 h-24 object-cover"
+                />
+                <p className="absolute top-[-10px] right-[-6px] bg-black text-white h-7 w-7 flex justify-center items-center rounded-full p-1 text-sm">
+                  {quantity}2
+                </p>
               </div>
-            </li>
-            <li className="me-2" role="presentation">
-              <button
-                className={`inline-block p-4 border-b-2 rounded-t-lg ${
-                  (activeTab === 'Checkout details' || isPlacedOrder) ? (isPlacedOrder ? 'border-green-500' : 'border-black text-black') : 'text-gray-600 border-gray-300'
-                }`}
-                //onClick={() => handleTabClick('Checkout details')}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === 'Checkout details'}
-              >
-                <div className=' flex gap-2 items-center'>
-                {isPlacedOrder ?(
-                        <div className='w-8 h-8 bg-green-500 flex justify-center items-center rounded-full'>
-                            <FaCheck className='text-white'/>
-                        </div>
-                        
-                    ):(
-                    <div className={`${activeTab === 'Checkout details' ? 'bg-black' : 'bg-gray-400'} flex justify-center items-center text-white w-[30px] h-[30px] rounded-full`}>
-                        2
-                    </div>
-                    )}
-
-                    <div className={`${isPlacedOrder ? 'text-green-500 text-[17px]':''}`}>
-                        Checkout details
-                    </div>
-                </div>
-              </button>
-            </li>
-            <li className="me-2" role="presentation">
-              <button
-                className={`inline-block p-4 border-b-2 rounded-t-lg ${
-                  activeTab === 'Order complete' ? 'border-black text-black' : 'text-gray-600 border-gray-300'
-                }`}
-                //onClick={() => handleTabClick('Order complete')}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === 'Order complete'}
-              >
-                <div className=' flex gap-2 items-center'>
-                    <div className={`${activeTab === 'Order complete' ? 'bg-black' : 'bg-gray-400'} flex justify-center items-center text-white w-[30px] h-[30px] rounded-full`}>
-                        3
-                    </div>
-
-                    <div className=''>
-                        Order complete
-                    </div>
-                </div>
-              </button>
-            </li>
-            
-          </ul>
+            );
+          })}
         </div>
-        <div id="default-tab-content">
-          <div
-            className={`${
-              activeTab === 'Shopping cart' ? 'block' : 'hidden'
-            }`}
-            id="profile"
-            role="tabpanel"
-          >
-            <ShoppingCart onCheckout={handleCheckout} setActiveTab={setActiveTab}/>
+      ) : (
+        <div>No products found in this order.</div>
+      )}
+
+      {/* Display the order details */}
+      {orderData.length > 0 && (
+        <div className="mt-4 flex flex-col gap-3">
+          <div className="flex">
+            <span className="text-gray-500 w-40">Order ID:</span>
+            <span className="font-bold">{orderData[0]._id}</span> {/* Assuming the first order */}
           </div>
-          <div
-            className={`${
-              activeTab === 'Checkout details' ? 'block' : 'hidden'
-            }`}
-            id="dashboard"
-            role="tabpanel"
-          >
-            <CheckoutDetails onPlace={handlePlaceOrder} setActiveTab={setActiveTab}/>
+          <div className="flex">
+           
+            <span className="text-gray-500 w-40">Date:</span>
+            <span>{new Date(orderData[0].createdAt).toLocaleDateString()}</span> {/* Assuming the first order */}
           </div>
-          <div
-            className={`${
-              activeTab === 'Order complete' ? 'block' : 'hidden'
-            }`}
-            id="settings"
-            role="tabpanel"
-          >
-            <OrderDetails/>
+          <div className="flex">
+            <span className="text-gray-500 w-40">Total:</span>
+            <span className="font-bold">${orderData[0].totalPrice ? orderData[0].totalPrice.toFixed(2) : 'N/A'}</span>
           </div>
-          
+          <div className="flex">
+            <span className="text-gray-500 w-40">Payment Method:</span>
+            <span className="font-bold">Credit Card</span>
+          </div>
         </div>
+      )}
+
+      <div className="flex justify-center mt-4">
+        <button className="bg-black text-white px-6 py-3 rounded-full">
+          Purchase history
+        </button>
       </div>
-      <Footer/>
     </div>
   );
 };
 
-export default Booking;
+export default OrderDetails;

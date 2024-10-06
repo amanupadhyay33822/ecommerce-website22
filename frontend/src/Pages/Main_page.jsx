@@ -8,11 +8,13 @@ import card1 from "../asserts/images/card 01.png"
 import card2 from "../asserts/images/card 2.png"
 import card3 from "../asserts/images/card 3.png"
 import card4 from "../asserts/images/card 4.png"
-import productcard1 from "../asserts/images/Product Card (1).png"
+import productcard1 from "../asserts/images/productimg1.png"
 import productcard2 from "../asserts/images/Product Card (2).png"
 import productcard3 from "../asserts/images/Product Card (3).png"
 import productcard4 from "../asserts/images/Product Card (4).png"
 import productcard5 from  "../asserts/images/Product Card (5).png"
+import productcard6 from "../asserts/images/Product Card (6).png"
+import { useNavigate } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
 import paste from "../asserts/images/Paste image (1).png"
 import Group from "../asserts/images/Group 3.png"
@@ -25,11 +27,123 @@ import Cart from "../Components/Cart"
 import Shop from './Shop';
 import { CiDiscount1 } from "react-icons/ci";
 import { AiOutlineClose } from 'react-icons/ai';
+import axios from 'axios';
+
 const Main_page = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(12);
+    const [noMore, setNoMore] = useState(false);
+  const addToCart = async (productId, quantity = 1) => {
+    // Check if the product is already in the cart
+    if (cartItems.includes(productId)) {
+      alert("Item is already added to the cart!");
+      return;
+    }
+    const resetVisibility = () => {
+      setVisibleCount(12);
+      setNoMore(false);
+    };
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/cart/add`,
+        {
+          productId,
+          quantity,
+        }
+      );
+
+      if (response.data.success) {
+        console.log("Product added to cart:", response.data.cart);
+        setCartItems((prev) => [...prev, productId]);
+        alert("Item is added to the cart!");
+        // return; // Update cart items state
+      } else {
+        console.error("Failed to add product to cart:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
+  const products = [
+    {
+      name: "Loveseat Sofa",
+      id:"67016cf324b83875dd894d32",
+      image_url: productcard6,
+      price: {
+        current: "$199.00",
+        original: "$400.00",
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Table Lamp",
+      id:"670030615952e849b4b4c663",
+      image_url: productcard2,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Beige Table Lamp",
+      id:"67016ea624b83875dd894d3b",
+      image_url: productcard2,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Bamboo Basket",
+      id:"67016fe924b83875dd894d46",
+      image_url: productcard3,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Beige Table Lamp",
+      id:"67016ea624b83875dd894d3b",
+      image_url: productcard5,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    },
+    {
+      name: "Sofa",
+      id:"67016e0b24b83875dd894d35",
+      image_url: productcard6,
+      price: {
+        current: "$24.99",
+        original: null,
+        discount: "50%"
+      },
+      rating: 5,
+      status: "New"
+    }
+  ];
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [showmore,setShoreMore] = useState(false)
   const [discount,setDiscount] = useState(true)
+  const navigate=useNavigate();
   const toggleCart = () => {
     
     setIsCartOpen(!isCartOpen);
@@ -41,7 +155,7 @@ const Main_page = () => {
     setDiscount(false)
   }
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col overflow-x-hidden'>
       {discount ?(
       <div className='bg-gray-200 py-3 flex justify-center items-center'>
         <div className='flex gap-2 justify-center items-center'>
@@ -144,7 +258,7 @@ const Main_page = () => {
                 </div>
               </div>
               
-              <div className='flex gap-4 mt-4 mb-5 overflow-x-auto w-full image-gallery'>
+              {/* <div className='flex gap-4 mt-4 mb-5 overflow-x-auto w-full image-gallery'>
                 <img src={productcard1} alt=''/>
                 <img src={productcard2} alt=''/>
                 <img src={productcard3} alt=''/>
@@ -152,6 +266,55 @@ const Main_page = () => {
                 <img src={productcard3} alt=''/>
                 <img src={productcard4} alt=''/>
                 <img src={productcard5} alt=''/>
+              </div> */}
+             <div className="flex space-x-6 overflow-x-auto p-6  image-gallery mb-4 w-[1050px]">
+                {products.map((product, index) => (
+                  <div key={index} className="min-w-[250px] bg-white shadow-lg rounded-lg overflow-hidden">
+                    {/* Image Section */}
+                    <div className="relative cursor-pointer" onClick={()=>{navigate('/product')}}>
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        className="h-48 w-full object-cover"
+                      />
+                      
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="p-4 text-center">
+                      <h3 className="text-gray-700 font-bold text-lg">{product.name}</h3>
+                      <div className="flex items-center justify-center space-x-2 mt-2">
+                        {/* {product.price.original && (
+                          <span className="text-gray-400 line-through">{product.price.original}</span>
+                        )} */}
+                        <span className="text-black font-bold">{product.price.current}</span>
+                      </div>
+
+                      {/* Rating */}
+                      <div className="flex justify-center items-center mt-2">
+                        {Array(product.rating)
+                          .fill()
+                          .map((_, i) => (
+                            <svg
+                              key={i}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4 text-black-500"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              stroke="none"
+                            >
+                              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                            </svg>
+                          ))}
+                      </div>
+
+                      {/* Add to Cart Button */}
+                      <button className="bg-black text-white px-4 py-2 rounded-lg mt-4" onClick={() => addToCart(product.id, 1)}>
+                        Add to cart
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
               <div className='flex gap-4 mb-4'>
                 <img src={card1} alt=''/>

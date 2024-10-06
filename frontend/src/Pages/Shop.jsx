@@ -44,7 +44,7 @@ const Shop = () => {
   }, []);
   const handleShowMore = () => {
     if (visibleCount + 4 < sortedProducts.length) {
-      setVisibleCount(prev => prev + 4);
+      setVisibleCount((prev) => prev + 4);
     } else if (visibleCount + 4 >= sortedProducts.length) {
       setVisibleCount(sortedProducts.length);
       setNoMore(true);
@@ -66,10 +66,10 @@ const Shop = () => {
     setIsCartOpen(!isCartOpen);
   };
   const viewTypeToGridCols = {
-    grid4: 'grid-cols-4',
-    grid3: 'grid-cols-3',
-    grid2: 'grid-cols-2',
-    grid1: 'grid-cols-1',
+    grid4: "grid-cols-4",
+    grid3: "grid-cols-3",
+    grid2: "grid-cols-2",
+    grid1: "grid-cols-1",
   };
 
   const addToCart = async (productId, quantity = 1) => {
@@ -83,7 +83,6 @@ const Shop = () => {
       setNoMore(false);
     };
 
-
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/cart/add`,
@@ -96,7 +95,8 @@ const Shop = () => {
       if (response.data.success) {
         console.log("Product added to cart:", response.data.cart);
         setCartItems((prev) => [...prev, productId]);
-        alert("Item is added to the cart!"); // Update cart items state
+        alert("Item is added to the cart!");
+        // return; // Update cart items state
       } else {
         console.error("Failed to add product to cart:", response.data.message);
       }
@@ -107,9 +107,13 @@ const Shop = () => {
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       // Split the product category string by commas, trim spaces, and check if the selected category exists
-      const categoryMatch = category === "All" || 
-        product.category.split(',').map(c => c.trim().toLowerCase()).includes(category.toLowerCase());
-  
+      const categoryMatch =
+        category === "All" ||
+        product.category
+          .split(",")
+          .map((c) => c.trim().toLowerCase())
+          .includes(category.toLowerCase());
+
       // Handle price filtering
       let priceMatch = false;
       switch (price) {
@@ -129,19 +133,18 @@ const Shop = () => {
         default:
           priceMatch = true;
       }
-  
+
       // Return true only if both category and price match
       return categoryMatch && priceMatch;
     });
   }, [products, category, price]);
-  
+
   const sortedProducts = useMemo(() => {
     const sorted = [...filteredProducts];
 
     sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
     return sorted;
   }, [filteredProducts]);
-
 
   return (
     <div>
@@ -170,7 +173,7 @@ const Shop = () => {
                   onChange={handleCategoryChange}
                   className="px-12 py-2 border border-gray-300 rounded-md text-md font-semibold focus:outline-none focus:ring-1 focus:ring-gray-500"
                 >
-                   <option value="All">All Categories</option>
+                  <option value="All">All Categories</option>
                   <option value="Living Room">Living Room</option>
                   <option value="Bedroom">Bedroom</option>
                   <option value="Office">Office</option>
@@ -196,25 +199,37 @@ const Shop = () => {
               <span className="font-semibold">Sort</span>
 
               <div className="flex flex-row-reverse gap-2">
-              <button
-                  onClick={() => setViewType('grid1')}
-                  className={`cursor-pointer ${viewType === 'grid4' ? 'text-black font-bold' : 'text-gray-500'}`}
+                <button
+                  onClick={() => setViewType("grid1")}
+                  className={`cursor-pointer ${
+                    viewType === "grid4"
+                      ? "text-black font-bold"
+                      : "text-gray-500"
+                  }`}
                   title="4 Columns"
                   aria-label="4 Columns Grid View"
                 >
                   <CiGrid2H size={24} />
                 </button>
                 <button
-                  onClick={() => setViewType('grid3')}
-                  className={`cursor-pointer ${viewType === 'grid2' ? 'text-black font-bold' : 'text-gray-500'}`}
+                  onClick={() => setViewType("grid3")}
+                  className={`cursor-pointer ${
+                    viewType === "grid2"
+                      ? "text-black font-bold"
+                      : "text-gray-500"
+                  }`}
                   title="2 Columns"
                   aria-label="2 Columns Grid View"
                 >
                   <CiGrid2V size={24} />
                 </button>
                 <button
-                  onClick={() => setViewType('grid2')}
-                  className={`cursor-pointer ${viewType === 'grid3' ? 'text-black font-bold' : 'text-gray-500'}`}
+                  onClick={() => setViewType("grid2")}
+                  className={`cursor-pointer ${
+                    viewType === "grid3"
+                      ? "text-black font-bold"
+                      : "text-gray-500"
+                  }`}
                   title="3 Columns"
                   aria-label="3 Columns Grid View"
                 >
@@ -222,8 +237,12 @@ const Shop = () => {
                 </button>
 
                 <button
-                  onClick={() => setViewType('grid4')}
-                  className={`cursor-pointer ${viewType === 'grid1' ? 'text-black font-bold' : 'text-gray-500'}`}
+                  onClick={() => setViewType("grid4")}
+                  className={`cursor-pointer ${
+                    viewType === "grid1"
+                      ? "text-black font-bold"
+                      : "text-gray-500"
+                  }`}
                   title="1 Column"
                   aria-label="1 Column Grid View"
                 >
@@ -232,107 +251,115 @@ const Shop = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Product Grid */}
-          <div className={`grid gap-4 mx-48 mt-4 w-[1050px] ${viewTypeToGridCols[viewType]}`}>
-        {sortedProducts.slice(0, visibleCount).length > 0 ? (
-          sortedProducts.slice(0, visibleCount).map((product) => (
-            <div key={product.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              {/* Image Section */}
-              <div className="relative" onClick={() => navigate(`/product`)}>
-                <img
-                  src={product.images}
-                  alt={product.name}
-                  className="h-48 w-full object-cover cursor-pointer"
-                />
-                {/* {product.price.discount && (
+          <div
+            className={`grid gap-4 mx-48 mt-4 w-[1050px] ${viewTypeToGridCols[viewType]}`}
+          >
+            {sortedProducts.slice(0, visibleCount).length > 0 ? (
+              sortedProducts.slice(0, visibleCount).map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white shadow-lg rounded-lg overflow-hidden"
+                >
+                  {/* Image Section */}
+                  <div
+                    className="relative"
+                    onClick={() => navigate(`/product`)}
+                  >
+                    <img
+                      src={product.images}
+                      alt={product.name}
+                      className="h-48 w-full object-cover cursor-pointer"
+                    />
+                    {/* {product.price.discount && (
                   <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                     -{product.price.discount}
                   </span>
                 )} */}
-                
-              </div>
+                  </div>
 
-              {/* Product Info */}
-              <div className="p-4 text-center">
-                <h3 className="text-gray-700 font-bold text-lg">{product.name}</h3>
-                <div className="flex items-center justify-center space-x-2 mt-2">
-                  {product.originalPrice && (
-                     <span className="text-black font-bold">${product.discountedPrice}</span>
+                  {/* Product Info */}
+                  <div className="p-4 text-center">
+                    <h3 className="text-gray-700 font-bold text-lg">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center justify-center space-x-2 mt-2">
+                      {product.originalPrice && (
+                        <span className="text-black font-bold">
+                          ${product.discountedPrice}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Rating */}
+                    <div className="flex justify-center items-center mt-2">
+                      {Array(5)
+                        .fill()
+                        .map((_, i) => (
+                          <svg
+                            key={i}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 text-yellow-500"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke="none"
+                          >
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                          </svg>
+                        ))}
+                    </div>
+
+                    {/* Add to Cart Button */}
+                    <button
+                      className="bg-black text-white px-4 py-2 rounded-lg mt-4 hover:bg-gray-800 transition-colors duration-200"
+                      onClick={() => addToCart(product._id, 1)} // Pass product._id and 1
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center text-gray-500 mt-8">
+                <p>
+                  {category !== "All" && price !== "All Price" ? (
+                    <>
+                      No products found for <strong>{category}</strong> under{" "}
+                      <strong>{price}</strong>.
+                    </>
+                  ) : category !== "All" ? (
+                    <>
+                      No products found for <strong>{category}</strong>.
+                    </>
+                  ) : price !== "All Price" ? (
+                    <>
+                      No products found under <strong>{price}</strong>.
+                    </>
+                  ) : (
+                    <>No products available at the moment.</>
                   )}
-                 
-                </div>
-
-                {/* Rating */}
-                <div className="flex justify-center items-center mt-2">
-                  {Array(5)
-                    .fill()
-                    .map((_, i) => (
-                      <svg
-                        key={i}
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-yellow-500"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        stroke="none"
-                      >
-                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                      </svg>
-                    ))}
-                </div>
-
-                {/* Add to Cart Button */}
-                <button 
-                  className="bg-black text-white px-4 py-2 rounded-lg mt-4 hover:bg-gray-800 transition-colors duration-200"
-                  onClick={() => navigate(`/product/get/${product.id}`)} // Navigate to product page
-                >
-                  Add to Cart
-                </button>
+                </p>
+                <p>Please try adjusting your filters.</p>
               </div>
-            </div>
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500 mt-8">
-            <p>
-              {category !== 'All' && price !== 'All Price' ? (
-                <>
-                  No products found for <strong>{category}</strong> under{' '}
-                  <strong>{price}</strong>.
-                </>
-              ) : category !== 'All' ? (
-                <>
-                  No products found for <strong>{category}</strong>.
-                </>
-              ) : price !== 'All Price' ? (
-                <>
-                  No products found under <strong>{price}</strong>.
-                </>
-              ) : (
-                <>
-                  No products available at the moment.
-                </>
-              )}
-            </p>
-            <p>Please try adjusting your filters.</p>
+            )}
           </div>
-        )}
-      </div>
 
-      {/* Show More Button or No More Images Message */}
-      <div className='flex justify-center mt-4 mb-8'>
-        {noMore ? (
-          <p className='text-gray-500'>No more images provided.</p>
-        ) : (
-          visibleCount < sortedProducts.length && (
-            <button 
-              className='border-2 border-black  rounded-full py-2 px-8 text-black '
-              onClick={handleShowMore}
-            >
-              Show More
-            </button>
-          )
-        )}
-      </div>
+          {/* Show More Button or No More Images Message */}
+          <div className="flex justify-center mt-4 mb-8">
+            {noMore ? (
+              <p className="text-gray-500">No more images provided.</p>
+            ) : (
+              visibleCount < sortedProducts.length && (
+                <button
+                  className="border-2 border-black  rounded-full py-2 px-8 text-black "
+                  onClick={handleShowMore}
+                >
+                  Show More
+                </button>
+              )
+            )}
+          </div>
 
           {/* Footer */}
           <Footer_top />
@@ -343,6 +370,6 @@ const Shop = () => {
       )}
     </div>
   );
-}
+};
 
 export default Shop;
