@@ -119,7 +119,7 @@ exports.getAllProducts = async (req, res) => {
       }
 
       // Fetch products with optional filtering (search, price range, category)
-      const products = await Product.find(filter);
+      const products = await Product.find(filter).populate({path: 'reviews'});
 
       return res.status(200).json({
           success: true,

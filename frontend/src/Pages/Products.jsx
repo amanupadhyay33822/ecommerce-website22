@@ -35,6 +35,7 @@ const Products = () => {
         );
         if (response.data.success) {
           setProduct(response.data.product);
+          console.log(response.data.product);
           setIsWishlisted(response.data.product.isWishlisted);
         } else {
           setError("Failed to fetch product.");
@@ -151,7 +152,7 @@ const Products = () => {
                 <GoStarFill />
               </div>
               <div className="ml-2 mt-[-5px]">
-                {product.reviews.length} Reviews
+                12 Reviews
               </div>
             </div>
             <div className="font-semibold text-2xl">{product.name}</div>

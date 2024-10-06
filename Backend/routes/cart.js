@@ -4,7 +4,7 @@ const { getCart, updateCartItem, removeCartItem, clearCart, addItemToCart } = re
 const { auth } = require('../middleware/auth');
 
 // Add product to cart
-router.post('/add', auth,addItemToCart);
+router.post('/add',auth,addItemToCart);
 
 // Get user's cart
 router.get('/get',auth, getCart);

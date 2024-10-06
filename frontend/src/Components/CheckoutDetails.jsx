@@ -4,7 +4,7 @@ import cart1 from "../asserts/images/cart1.png";
 import cart2 from "../asserts/images/cart2.png";
 import cart3 from "../asserts/images/cart3.png";
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 const CheckoutDetails = ({ onPlace, setActiveTab }) => {
   const initialCartItems = [
     {
@@ -40,24 +40,25 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/get`,
-        {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/cart/get`,
+          {
             headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
+              Authorization: `Bearer ${Cookies.get("token")}`, // Include the token in the request header
             },
-        }); // Replace with your API endpoint
+          }
+        ); // Replace with your API endpoint
         setCartItems(response.data.items);
-        setSubtotal(response.data.subtotal) 
-        setTotal(response.data.total) 
-       // Assuming the response data is an array of cart items
+        setSubtotal(response.data.subtotal);
+        setTotal(response.data.total);
+        // Assuming the response data is an array of cart items
       } catch (error) {
-        console.error('Error fetching cart items:', error);
+        console.error("Error fetching cart items:", error);
       }
     };
-    
+
     fetchCartItems();
-   
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const newSubtotal = cartItems.reduce(
@@ -88,10 +89,10 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
   const [townCity, setTownCity] = useState("");
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("Credit Card");
   const [cardNumber, setCardNumber] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
-  const [cvcCode, setCvcCode] = useState("");
+  const [cvvCode, setCvvCode] = useState("");
 
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -102,22 +103,56 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
   };
 
   const handleCardNumberChange = (e) => {
-    setCardNumber(e.target.value);
+    let inputValue = e.target.value.replace(/\D/g, "");
+    if (inputValue.length > 12) {
+      inputValue = inputValue.slice(0, 12);
+    }
+
+    const formattedCardNumber = inputValue.replace(/(\d{4})(?=\d)/g, "$1 ");
+
+    setCardNumber(formattedCardNumber);
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    setPhoneNumber(e.target.value.replace(/\D/g, ""));
+  };
+
+  const handleZipCodeChange = (e) => {
+    let inputValue = e.target.value.replace(/\D/g, "");
+
+    if (inputValue.length > 6) {
+      inputValue = inputValue.slice(0, 6);
+    }
+
+    if (inputValue.length > 3) {
+      inputValue = inputValue.slice(0, 3) + " " + inputValue.slice(3);
+    }
+
+    setZipCode(inputValue);
   };
 
   const handleExpirationDateChange = (e) => {
-    setExpirationDate(e.target.value);
+    let inputValue = e.target.value.replace(/\D/g, "");
+    if (inputValue.length > 4) {
+      inputValue = inputValue.slice(0, 4);
+    }
+
+    if (inputValue.length >= 3) {
+      inputValue = inputValue.slice(0, 2) + "/" + inputValue.slice(2);
+    }
+
+    setExpirationDate(inputValue);
   };
 
-  const handleCvcCodeChange = (e) => {
-    setCvcCode(e.target.value);
+  const handleCvvCodeChange = (e) => {
+    const cvv = e.target.value.replace(/\D/g, "");
+    setCvvCode(cvv.slice(0, 3));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("Form data:", {
-      firstName,
+  const handleSubmit = async (e) => {
+    try {
+    const response =   await axios.post(`${process.env.REACT_APP_BACKEND_URL}/order/create`, {
+        firstName,
       lastName,
       phoneNumber,
       email,
@@ -128,13 +163,94 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
       zipCode,
       cardNumber,
       expirationDate,
-      cvcCode,
-    });
+      cvvCode,
+      cartItems,
+      totalPrice:total,
+      paymentMethod
+      });
+       console.log(response.data);
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
 
   const handlePlaceClick = () => {
-    onPlace();
-    setActiveTab("Order complete");
+    const isValidEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    const isValidPhoneNumber = (phoneNumber) => {
+      const phoneNumberRegex = /^\d{10}$/;
+      return phoneNumberRegex.test(phoneNumber);
+    };
+
+    const isValidZipCode = (zipCode) => {
+      const zipCodeRegex = /^\d{3} \d{3}$/;
+      return zipCodeRegex.test(zipCode);
+    };
+
+    const isValidCardNumber = (cardNumber) => {
+      const cardNumberRegex = /^\d{4} \d{4} \d{4}$/;
+      return cardNumberRegex.test(cardNumber);
+    };
+
+    const isValidExpirationDate = (expirationDate) => {
+      const expirationRegex = /^\d{2}\/\d{2}$/;
+      return expirationRegex.test(expirationDate);
+    };
+
+    const isValidCvcCode = (cvcCode) => {
+      const cvcCodeRegex = /^\d{3}$/;
+      return cvcCodeRegex.test(cvcCode);
+    };
+
+    if (
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !email ||
+      !streetAddress ||
+      !country ||
+      !townCity ||
+      !state ||
+      !zipCode ||
+      !paymentMethod ||
+      (paymentMethod === "Credit Card" && (!cardNumber || !expirationDate || !cvvCode))
+    ) {
+      alert(
+        "Please fill in all required fields.",
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        streetAddress,
+        country,
+        townCity,
+        state,
+        zipCode,
+        paymentMethod,
+        cardNumber,
+        expirationDate,
+        cvvCode
+      );
+    } else if (!isValidEmail(email)) {
+      alert("Invalid email address.");
+    } else if (!isValidPhoneNumber(phoneNumber)) {
+      alert("Invalid phone number.");
+    } else if (!isValidZipCode(zipCode)) {
+      alert("Invalid zip code.");
+    } else if (!isValidCardNumber(cardNumber)) {
+      alert("Invalid card number.");
+    } else if (!isValidExpirationDate(expirationDate)) {
+      alert("Invalid expiration date.");
+    } else if (!isValidCvcCode(cvvCode)) {
+      alert("Invalid CVC code.");
+    } else {
+      handleSubmit();
+      onPlace();
+      setActiveTab("Order complete");
+    }
   };
 
   return (
@@ -150,7 +266,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 htmlFor="firstName"
                 className="block text-gray-500 font-bold mb-2"
               >
-                First Name
+                First Name <b className="text-red-500">*</b>
               </label>
               <input
                 type="text"
@@ -168,7 +284,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 htmlFor="lastName"
                 className="block text-gray-500 font-bold mb-2"
               >
-                Last Name
+                Last Name <b className="text-red-500">*</b>
               </label>
               <input
                 type="text"
@@ -187,7 +303,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               htmlFor="lastName"
               className="block text-gray-500 font-bold mb-2"
             >
-              Phone Number
+              Phone Number <b className="text-red-500">*</b>
             </label>
             <input
               type="number"
@@ -196,7 +312,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               className="w-[620px]
                             px-3 py-2 border rounded-md"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => handlePhoneNumberChange(e)}
               required
             />
           </div>
@@ -205,7 +321,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               htmlFor="lastName"
               className="block text-gray-500 font-bold mb-2"
             >
-              Email Address
+              Email Address <b className="text-red-500">*</b>
             </label>
             <input
               type="email"
@@ -229,7 +345,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               htmlFor="firstName"
               className="block text-gray-500 font-bold mb-2"
             >
-              STREET ADDRESS
+              STREET ADDRESS <b className="text-red-500">*</b>
             </label>
             <input
               type="text"
@@ -237,8 +353,8 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               placeholder="Street Address"
               className="w-[620px]
                             px-3 py-2 border rounded-md"
-              value={firstName}
-              onChange={handleFirstNameChange}
+              value={streetAddress}
+              onChange={(e) => setStreetAddress(e.target.value)}
               required
             />
           </div>
@@ -247,15 +363,15 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               htmlFor="lastName"
               className="block text-gray-500 font-bold mb-2"
             >
-              COUNTRY
+              COUNTRY <b className="text-red-500">*</b>
             </label>
             <input
               type="text"
               id="lastName"
               placeholder="Country"
               className="w-[620px]                            px-3 py-2 border rounded-md"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
               required
             />
           </div>
@@ -265,16 +381,16 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               htmlFor="lastName"
               className="block text-gray-500 font-bold mb-2"
             >
-              TOWN / CITY
+              TOWN / CITY <b className="text-red-500">*</b>
             </label>
             <input
-              type="number"
+              type="text"
               id="phone number"
               placeholder="Town / City"
               className="w-[620px]
                             px-3 py-2 border rounded-md"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={townCity}
+              onChange={(e) => setTownCity(e.target.value)}
               required
             />
           </div>
@@ -284,7 +400,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 htmlFor="lastName"
                 className="block text-gray-500 font-bold mb-2"
               >
-                STATE
+                STATE <b className="text-red-500">*</b>
               </label>
               <input
                 type="email"
@@ -292,8 +408,8 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 placeholder="State"
                 className="w-[300px]
                                 px-3 py-2 border rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={state}
+                onChange={(e) => setState(e.target.value)}
                 required
               />
             </div>
@@ -302,17 +418,16 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 htmlFor="lastName"
                 className="block text-gray-500 font-bold mb-2"
               >
-                ZIP CODE
+                ZIP CODE <b className="text-red-500">*</b>
               </label>
               <input
-                type="email"
+                type="text"
                 id="email"
                 placeholder="Zip Code"
                 className="w-[300px]
                             px-3 py-2 border rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                value={zipCode}
+                onChange={(e) => handleZipCodeChange(e)}
               />
             </div>
           </div>
@@ -332,6 +447,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               className={`${paymentMethod === "card" ? "text-black" : ""}`}
               checked={paymentMethod === "card"}
               onChange={handlePaymentMethodChange}
+              required
             />
             <div className="flex  items-center justify-between w-full">
               <label htmlFor="card-payment" className="ml-2">
@@ -364,7 +480,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 htmlFor="cardNumber"
                 className="block text-gray-500 font-bold mb-2"
               >
-                Card Number
+                Card Number <b className="text-red-500">*</b>
               </label>
               <input
                 type="text"
@@ -373,6 +489,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 className="w-[620px] px-3 py-2 border rounded-md"
                 value={cardNumber}
                 onChange={handleCardNumberChange}
+                maxLength="14"
                 required
               />
               <div className="flex gap-4 mt-2">
@@ -381,7 +498,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                     htmlFor="expirationDate"
                     className="block text-gray-500 font-bold mb-2"
                   >
-                    Expiration Date
+                    Expiration Date <b className="text-red-500">*</b>
                   </label>
                   <input
                     type="text"
@@ -398,14 +515,14 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                     htmlFor="cvcCode"
                     className="block text-gray-500 font-bold mb-2"
                   >
-                    CVC
+                    CVC <b className="text-red-500">*</b>
                   </label>
                   <input
                     type="text"
                     id="cvcCode"
                     className="w-[300px] px-3 py-2 border rounded-md"
-                    value={cvcCode}
-                    onChange={handleCvcCodeChange}
+                    value={cvvCode}
+                    onChange={handleCvvCodeChange}
                     required
                     placeholder="CVC code"
                   />
