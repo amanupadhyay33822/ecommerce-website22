@@ -381,7 +381,7 @@ const Main_page = () => {
                       {/* Add to Cart Button */}
 
                       <button className="bg-black text-white px-4 py-2 rounded-lg mt-4" onClick={() => addToCart(product.id, 1)}>
-=======
+
                      
 
                         Add to cart
