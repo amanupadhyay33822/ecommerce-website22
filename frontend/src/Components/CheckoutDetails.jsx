@@ -4,6 +4,8 @@ import cart1 from "../asserts/images/cart1.png";
 import cart2 from "../asserts/images/cart2.png";
 import cart3 from "../asserts/images/cart3.png";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 const CheckoutDetails = ({ onPlace, setActiveTab }) => {
   const initialCartItems = [
@@ -54,6 +56,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
         // Assuming the response data is an array of cart items
       } catch (error) {
         console.error("Error fetching cart items:", error);
+        toast.error("Failed to load cart items. Please try again.");
       }
     };
 
@@ -169,6 +172,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
       paymentMethod
       });
        console.log(response.data);
+       
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -218,49 +222,49 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
       !paymentMethod ||
       (paymentMethod === "Credit Card" && (!cardNumber || !expirationDate || !cvvCode))
     ) {
-      alert(
-        "Please fill in all required fields.",
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        streetAddress,
-        country,
-        townCity,
-        state,
-        zipCode,
-        paymentMethod,
-        cardNumber,
-        expirationDate,
-        cvvCode
-      );
+
+      toast.error("Please fill in all required fields.");
+      return;
     } else if (!isValidEmail(email)) {
-      alert("Invalid email address.");
+      toast.error("Invalid email address.");
     } else if (!isValidPhoneNumber(phoneNumber)) {
-      alert("Invalid phone number.");
+      toast.error("Invalid phone number.");
     } else if (!isValidZipCode(zipCode)) {
-      alert("Invalid zip code.");
+      toast.error("Invalid zip code.");
     } else if (!isValidCardNumber(cardNumber)) {
-      alert("Invalid card number.");
+      toast.error("Invalid card number.");
     } else if (!isValidExpirationDate(expirationDate)) {
-      alert("Invalid expiration date.");
+      toast.error("Invalid expiration date.");
     } else if (!isValidCvcCode(cvvCode)) {
       alert("Invalid CVC code.");
     } else {
       handleSubmit();
       onPlace();
+      toast.success("Order placed successfully!");
       setActiveTab("Order complete");
     }
   };
 
   return (
-    <div className="flex gap-6 w-full">
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-4 mb-4  border p-3 rounded-md w-[700px]">
+    <div className="flex flex-col sm:flex-row gap-6 w-full">
+      <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      <div className="flex flex-col  gap-3">
+        <div className="flex flex-col gap-4 mb-4  border p-3 rounded-md lg:w-[700px] sm:w-[400px]">
           <div className="text-[20px] font-medium flex justify-start mt-4 mb-4">
             Contact Information
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <div>
               <label
                 htmlFor="firstName"
@@ -272,7 +276,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 type="text"
                 id="firstName"
                 placeholder="First nam"
-                className="w-[300px]   
+                className="lg:w-[300px] sm:w-full  
                             px-3 py-2 border rounded-md"
                 value={firstName}
                 onChange={handleFirstNameChange}
@@ -290,7 +294,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 type="text"
                 id="lastName"
                 placeholder="Last name"
-                className="w-[300px]
+                className="lg:w-[300px] sm:w-full 
                             px-3 py-2 border rounded-md"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -309,7 +313,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               type="number"
               id="phone number"
               placeholder="Phone number"
-              className="w-[620px]
+              className="lg:w-[620px] sm:w-96
                             px-3 py-2 border rounded-md"
               value={phoneNumber}
               onChange={(e) => handlePhoneNumberChange(e)}
@@ -327,7 +331,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               type="email"
               id="email"
               placeholder="Your Email"
-              className="w-[620px]
+              className="lg:w-[620px] sm:w-96
                             px-3 py-2 border rounded-md"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -351,7 +355,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               type="text"
               id="firstName"
               placeholder="Street Address"
-              className="w-[620px]
+              className="lg:w-[620px] sm:w-96
                             px-3 py-2 border rounded-md"
               value={streetAddress}
               onChange={(e) => setStreetAddress(e.target.value)}
@@ -369,7 +373,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               type="text"
               id="lastName"
               placeholder="Country"
-              className="w-[620px]                            px-3 py-2 border rounded-md"
+              className="lg:w-[620px] sm:w-96                            px-3 py-2 border rounded-md"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               required
@@ -387,14 +391,14 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
               type="text"
               id="phone number"
               placeholder="Town / City"
-              className="w-[620px]
+              className="lg:w-[620px] sm:w-96
                             px-3 py-2 border rounded-md"
               value={townCity}
               onChange={(e) => setTownCity(e.target.value)}
               required
             />
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="">
               <label
                 htmlFor="lastName"
@@ -406,7 +410,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 type="email"
                 id="email"
                 placeholder="State"
-                className="w-[300px]
+                className="lg:w-[300px] sm:w-full
                                 px-3 py-2 border rounded-md"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
@@ -424,7 +428,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 type="text"
                 id="email"
                 placeholder="Zip Code"
-                className="w-[300px]
+                className="lg:w-[300px] sm:w-full
                             px-3 py-2 border rounded-md"
                 value={zipCode}
                 onChange={(e) => handleZipCodeChange(e)}
@@ -486,13 +490,13 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                 type="text"
                 id="cardNumber"
                 placeholder="1234 1234 1234"
-                className="w-[620px] px-3 py-2 border rounded-md"
+                className="lg:w-[620px] sm:w-96 px-3 py-2 border rounded-md"
                 value={cardNumber}
                 onChange={handleCardNumberChange}
                 maxLength="14"
                 required
               />
-              <div className="flex gap-4 mt-2">
+              <div className="flex flex-col sm:flex-row gap-4 mt-2">
                 <div>
                   <label
                     htmlFor="expirationDate"
@@ -504,7 +508,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                     type="text"
                     id="expirationDate"
                     placeholder="MM/YY"
-                    className="w-[300px] px-3 py-2 border rounded-md"
+                    className="lg:w-[300px] sm:w-full px-3 py-2 border rounded-md"
                     value={expirationDate}
                     onChange={handleExpirationDateChange}
                     required
@@ -520,7 +524,7 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
                   <input
                     type="text"
                     id="cvcCode"
-                    className="w-[300px] px-3 py-2 border rounded-md"
+                    className="lg:w-[300px] sm:w-fullpx-3 py-2 border rounded-md"
                     value={cvvCode}
                     onChange={handleCvvCodeChange}
                     required
@@ -532,14 +536,14 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
           )}
         </div>
         <div
-          className="w-full flex justify-center items-center cursor-pointer bg-black text-white rounded-md mt-3 mb-4 py-3"
+          className="w-full flex justify-center  text-center items-center cursor-pointer bg-black text-white rounded-md mt-3 mb-4 py-3 hidden lg:block"
           onClick={handlePlaceClick}
         >
           Place Order
         </div>
       </div>
 
-      <div className="flex p-2 flex-col border-1 border-black rounded-md w-[500px] h-fit">
+      <div className="flex p-2 flex-col border-1 border-black rounded-md lg:w-[500px] sm:w-[400px] h-fit">
         <div className="text-[20px] font-medium flex justify-start mt-4 mb-4">
           Order summary
         </div>
@@ -628,6 +632,12 @@ const CheckoutDetails = ({ onPlace, setActiveTab }) => {
           <div className="text-[17px] font-bold">${total}</div>
         </div>
       </div>
+      <div
+          className="w-full flex justify-center items-center cursor-pointer bg-black text-white rounded-md mt-3 mb-4 py-3 sm:block lg:hidden"
+          onClick={handlePlaceClick}
+        >
+          Place Order
+        </div>
     </div>
   );
 };

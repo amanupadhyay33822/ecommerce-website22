@@ -13,7 +13,7 @@ const OrderDetails = () => {
           `${process.env.REACT_APP_BACKEND_URL}/order/get`,
           {
             headers: {
-              Authorization: `Bearer ${Cookies.get('token')}`, // Include the token in the request header
+              Authorization: `Bearer ${Cookies.get('token')}`, 
             },
           }
         );
@@ -21,7 +21,7 @@ const OrderDetails = () => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           setOrderData(response.data);
           const cartItemsArray = response.data.flatMap(order => order.cartItems);
-          setProductData(cartItemsArray); // Combine all cartItems into one array
+          setProductData(cartItemsArray); 
         }
       } catch (error) {
         console.error('Error fetching order details:', error);
@@ -36,17 +36,17 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className="bg-white flex flex-col justify-center items-center p-4 rounded-lg shadow-2xl w-[600px] mt-4 mb-6">
-      <h2 className="text-2xl font-bold text-center mb-4">Thank you! 🎉</h2>
-      <p className="text-center font-semibold text-3xl mb-4 w-72">
+    <div className="bg-white flex flex-col justify-center items-center p-4 md:p-6 rounded-lg shadow-2xl w-full max-w-xl md:max-w-2xl mt-4 mb-6 mx-auto">
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Thank you! 🎉</h2>
+      <p className="text-center font-semibold text-xl md:text-2xl mb-4 w-full max-w-xs md:max-w-sm">
         Your order has been received.
       </p>
 
-      {/* Display the products for the latest order */}
+      
       {productData.length > 0 ? (
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center flex-wrap gap-4">
           {productData.map((item, index) => {
-            // Find the matching order for this product and extract the quantity
+            
             const order = orderData.find(order =>
               
               order.cartItems.some(cartItem => cartItem._id === item._id)
@@ -56,11 +56,11 @@ const OrderDetails = () => {
               : 0;
 
             return (
-              <div key={index} className="relative flex flex-col items-center">
+              <div key={index} className="relative flex flex-col items-center w-24 h-24 md:w-28 md:h-28">
                 <img
-                  src={item.images} // Assuming the image field is in item
+                  src={item.images} 
                   alt={item.name}
-                  className="w-24 h-24 object-cover"
+                  className="w-full h-full object-cover rounded-lg"
                 />
                 <p className="absolute top-[-10px] right-[-6px] bg-black text-white h-7 w-7 flex justify-center items-center rounded-full p-1 text-sm">
                   {quantity}2

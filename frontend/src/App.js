@@ -7,6 +7,10 @@ import Booking from './Pages/Booking';
 import Shop from './Pages/Shop';
 import Products from './Pages/Products';
 import OrderDetails from './Components/OrderDetails';
+import ContactUs from './Components/ContactUs';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -20,6 +24,8 @@ function App() {
         <Route path='/booking' element={<Booking/>}/>
         <Route path='/product' element={<Products/>}/>
         <Route path='/xyz' element={<OrderDetails/>}/>
+        <Route path='/contactus'element={<ContactUs/>}/>
+        
       </Routes>
     </Router>
   

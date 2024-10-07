@@ -11,6 +11,8 @@ import cart2 from "../asserts/images/cart2.png";
 import cart3 from "../asserts/images/cart_color3.png";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Components/Footer";
+
 const Products = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -123,25 +125,25 @@ const Products = () => {
   if (!product) return null; // Prevents rendering if product is null
 
   return (
-    <div>
+    <div className="w-full overflow-x-hidden" >
       <Navbar onCartClick={toggleCart} />
       <Cart isOpen={isCartOpen} onClose={toggleCart} />
-      <div className="text-[12px] flex items-center justify-start ml-48 gap-2 mt-3 mb-3">
+      <div className="text-[12px] flex items-center justify-start sm:ml-2 lg:ml-48 gap-2 mt-3 mb-3">
         Home <IoIosArrowForward /> Shop <IoIosArrowForward /> Living Room{" "}
         <IoIosArrowForward /> <b>Product</b>
       </div>
-      <div className="ml-48 grid grid-cols-2">
-        <div className="grid grid-cols-2 gap-2">
+      <div className="sm:mx-0 lg:mx-36 sm:flex sm:flex-row-reverse  lg:grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-2 overflow-hidden ">
           {product.images.map((image, index) => (
             <img
               key={index}
               src={image}
               alt={product.name}
-              className="mb-2 w-[300px] h-[350px]"
+              className="mb-2 w-[300px] h-[350px] "
             />
           ))}
         </div>
-        <div className="flex flex-col gap-4 ml-4 w-[500px]">
+        <div className="flex flex-col gap-4 ml-4 w-[300px] lg:w-[500px]">
           <div className="flex flex-col gap-4 border-b">
             <div className="flex">
               <div className="flex gap-1">
@@ -156,7 +158,7 @@ const Products = () => {
               </div>
             </div>
             <div className="font-semibold text-2xl">{product.name}</div>
-            <div className="text-gray-400">{product.description}</div>
+            <div className="text-gray-400 ">{product.description}</div>
             <div className="flex gap-4 mb-3 items-center">
               <div className="font-bold text-2xl">
                 ${product.discountedPrice}
@@ -209,7 +211,7 @@ const Products = () => {
             </div>
             <button
               onClick={addToCart}
-              className="py-3 bg-black no-underline text-white flex justify-center items-center w-full rounded-md font-semibold"
+              className="py-3 bg-black no-underline text-white flex justify-center items-center  rounded-md font-semibold"
             >
               Add to Cart
             </button>
@@ -387,6 +389,7 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

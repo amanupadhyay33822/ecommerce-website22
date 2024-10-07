@@ -147,114 +147,107 @@ const Shop = () => {
   }, [filteredProducts]);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {!showmore ? (
         <>
           <Navbar onCartClick={toggleCart} />
           <Cart isOpen={isCartOpen} onClose={toggleCart} />
           <div className="relative">
-            <div className="mx-48 w-[1120px]">
-              <img src={home_shop} alt="" className="w-full h-auto" />
-            </div>
-            <div className="absolute inset-0 flex flex-col gap-4 justify-center items-center text-center">
-              <div className="text-[10px] flex items-center justify-center gap-2">
-                Home <IoIosArrowForward /> <b>Shop</b>
-              </div>
-              <div className="font-semibold text-4xl">Shop Page</div>
-              <div>Let's design the place you always imagined</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between p-4 ml-44 mr-44">
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-2">
-                <div className="font-semibold">Category</div>
-                <select
-                  value={category}
-                  onChange={handleCategoryChange}
-                  className="px-12 py-2 border border-gray-300 rounded-md text-md font-semibold focus:outline-none focus:ring-1 focus:ring-gray-500"
-                >
-                  <option value="All">All Categories</option>
-                  <option value="Living Room">Living Room</option>
-                  <option value="Bedroom">Bedroom</option>
-                  <option value="Office">Office</option>
-                </select>
-              </div>
-              {/* price filter */}
-              <div className="flex flex-col gap-2">
-                <div className="font-semibold">Price</div>
-                <select
-                  value={price}
-                  onChange={handlePriceChange}
-                  className="px-12 py-2 border border-gray-300 rounded-md text-md font-semibold focus:outline-none focus:ring-1 focus:ring-gray-500"
-                >
-                  <option value="All Price">All Price</option>
-                  <option value="Under $100">$100 and below</option>
-                  <option value="$100-$500">$100 - $500</option>
-                  <option value="Above $500">$500 and above</option>
-                </select>
-              </div>
-            </div>
+  <div className="sm:mx-auto lg:mx-auto  lg:max-w-[1120px]]">
+    <img src={home_shop} alt="Shop" className="w-full h-auto" />
+  </div>
+  <div className="absolute inset-0 flex flex-col gap-4 justify-center items-center text-center">
+    <div className="text-[10px] flex items-center justify-center gap-2">
+      Home <IoIosArrowForward /> <b>Shop</b>
+    </div>
+    <div className="font-semibold text-4xl">Shop Page</div>
+    <div>Let's design the place you always imagined</div>
+  </div>
+</div>
 
-            <div className="flex items-center gap-3">
-              <span className="font-semibold">Sort</span>
+<div className="flex flex-col sm:flex-row items-center justify-between p-4 sm:mx-0 lg:mx-36 ">
+  <div className="flex flex-col sm:flex-row gap-4">
+    <div className="flex flex-col gap-2">
+      <div className="font-semibold">Category</div>
+      <select
+        value={category}
+        onChange={handleCategoryChange}
+        className="px-4 py-2 border border-gray-300 rounded-md text-md font-semibold focus:outline-none focus:ring-1 focus:ring-gray-500"
+      >
+        <option value="All">All Categories</option>
+        <option value="Living Room">Living Room</option>
+        <option value="Bedroom">Bedroom</option>
+        <option value="Office">Office</option>
+      </select>
+    </div>
+    {/* Price filter */}
+    <div className="flex flex-col gap-2">
+      <div className="font-semibold">Price</div>
+      <select
+        value={price}
+        onChange={handlePriceChange}
+        className="px-4 py-2 border border-gray-300 rounded-md text-md font-semibold focus:outline-none focus:ring-1 focus:ring-gray-500"
+      >
+        <option value="All Price">All Price</option>
+        <option value="Under $100">$100 and below</option>
+        <option value="$100-$500">$100 - $500</option>
+        <option value="Above $500">$500 and above</option>
+      </select>
+    </div>
+  </div>
 
-              <div className="flex flex-row-reverse gap-2">
-                <button
-                  onClick={() => setViewType("grid1")}
-                  className={`cursor-pointer ${
-                    viewType === "grid4"
-                      ? "text-black font-bold"
-                      : "text-gray-500"
-                  }`}
-                  title="4 Columns"
-                  aria-label="4 Columns Grid View"
-                >
-                  <CiGrid2H size={24} />
-                </button>
-                <button
-                  onClick={() => setViewType("grid3")}
-                  className={`cursor-pointer ${
-                    viewType === "grid2"
-                      ? "text-black font-bold"
-                      : "text-gray-500"
-                  }`}
-                  title="2 Columns"
-                  aria-label="2 Columns Grid View"
-                >
-                  <CiGrid2V size={24} />
-                </button>
-                <button
-                  onClick={() => setViewType("grid2")}
-                  className={`cursor-pointer ${
-                    viewType === "grid3"
-                      ? "text-black font-bold"
-                      : "text-gray-500"
-                  }`}
-                  title="3 Columns"
-                  aria-label="3 Columns Grid View"
-                >
-                  <IoGrid size={24} />
-                </button>
+  <div className="flex items-center gap-3 mt-4 hidden lg:block sm:mt-0">
+    <span className="font-semibold">Sort</span>
 
-                <button
-                  onClick={() => setViewType("grid4")}
-                  className={`cursor-pointer ${
-                    viewType === "grid1"
-                      ? "text-black font-bold"
-                      : "text-gray-500"
-                  }`}
-                  title="1 Column"
-                  aria-label="1 Column Grid View"
-                >
-                  <BsGrid3X3GapFill size={24} />
-                </button>
-              </div>
-            </div>
-          </div>
+    <div className="flex flex-row-reverse gap-2">
+      <button
+        onClick={() => setViewType("grid4")}
+        className={`cursor-pointer ${
+          viewType === "grid4" ? "text-black font-bold" : "text-gray-500"
+        }`}
+        title="4 Columns"
+        aria-label="4 Columns Grid View"
+      >
+        <CiGrid2H size={24} />
+      </button>
+      <button
+        onClick={() => setViewType("grid3")}
+        className={`cursor-pointer ${
+          viewType === "grid3" ? "text-black font-bold" : "text-gray-500"
+        }`}
+        title="3 Columns"
+        aria-label="3 Columns Grid View"
+      >
+        <IoGrid size={24} />
+      </button>
+      <button
+        onClick={() => setViewType("grid2")}
+        className={`cursor-pointer ${
+          viewType === "grid2" ? "text-black font-bold" : "text-gray-500"
+        }`}
+        title="2 Columns"
+        aria-label="2 Columns Grid View"
+      >
+        <CiGrid2V size={24} />
+      </button>
+      <button
+        onClick={() => setViewType("grid1")}
+        className={`cursor-pointer ${
+          viewType === "grid1" ? "text-black font-bold" : "text-gray-500"
+        }`}
+        title="1 Column"
+        aria-label="1 Column Grid View"
+      >
+        <BsGrid3X3GapFill size={24} />
+      </button>
+    </div>
+  </div>
+</div>
+
 
           {/* Product Grid */}
           <div
-            className={`grid gap-4 mx-48 mt-4 w-[1050px] ${viewTypeToGridCols[viewType]}`}
+            className={`sm:flex sm:flex-col lg:grid gap-4 sm:mx-auto lg:mx-auto mt-4 w-full lg:w-[1050px] ${viewTypeToGridCols[viewType]}`}
           >
             {sortedProducts.slice(0, visibleCount).length > 0 ? (
               sortedProducts.slice(0, visibleCount).map((product) => (
@@ -268,10 +261,11 @@ const Shop = () => {
                     onClick={() => navigate(`/product`)}
                   >
                     <img
-                      src={product.images}
-                      alt={product.name}
-                      className="h-48 w-full object-cover cursor-pointer"
-                    />
+  src={product.images}
+  alt={product.name}
+  className="h-48 w-full sm:w-full lg:w-[500px] object-cover cursor-pointer"
+/>
+
                     {/* {product.price.discount && (
                   <span className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                     -{product.price.discount}

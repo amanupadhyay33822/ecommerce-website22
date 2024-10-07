@@ -244,7 +244,7 @@ const Main_page = () => {
         <>
            <Navbar onCartClick={toggleCart} />
       <Cart isOpen={isCartOpen} onClose={toggleCart} />
-      <div className=' mx-48 w-[1120px]'>
+      <div className='sm:mx-0 lg:mx-36 w-full lg:max-w-[1120px]'>
         <Carousel data-bs-theme="light" className="custom-carousel" style={{ height: '500px' }}>
           <Carousel.Item style={{ height: '536px' }}>
             <img
@@ -276,7 +276,7 @@ const Main_page = () => {
         
       </div>
       
-            <div className='mx-48 grid grid-cols-2 mt-12 items-center'>
+            <div className='sm:mx-0 lg:mx-52 w-full max-w-[1120px] grid grid-cols-2 mt-12 items-center'>
                 <div className='font-semibold text-6xl'>
                 <div>Simple Unique<b className='text-gray-400'>/</b></div>
                 <div>Simple Better<b className='text-gray-400'>.</b></div>
@@ -313,7 +313,7 @@ const Main_page = () => {
                     
                 </div>
             </div>
-            <div className=' flex flex-col mx-52 w-[1300px]'>
+            <div className='sm:mx-0 lg:mx-36 w-full [1120px] flex flex-col  max-w-[1300px]'>
               <div className='flex mt-4 mb-4 items-center justify-between w-[1050px]'>
                 <div className='font-semibold w-24 text-4xl'>New Arrivals</div>
                 <div className="relative" onClick={()=>{
@@ -327,16 +327,6 @@ const Main_page = () => {
                   <div className="absolute bottom-0 left-0 w-full h-[2px] bg-black"></div>
                 </div>
               </div>
-              
-              {/* <div className='flex gap-4 mt-4 mb-5 overflow-x-auto w-full image-gallery'>
-                <img src={productcard1} alt=''/>
-                <img src={productcard2} alt=''/>
-                <img src={productcard3} alt=''/>
-                <img src={productcard4} alt=''/>
-                <img src={productcard3} alt=''/>
-                <img src={productcard4} alt=''/>
-                <img src={productcard5} alt=''/>
-              </div> */}
              <div className="flex space-x-6 overflow-x-auto p-6  image-gallery mb-4 w-[1050px]">
                 {products.map((product, index) => (
                   <div key={index} className="min-w-[250px] bg-white shadow-lg rounded-lg overflow-hidden">
@@ -390,7 +380,7 @@ const Main_page = () => {
                   </div>
                 ))}
               </div>
-              <div className='flex gap-4 mb-4'>
+              <div className='flex gap-4 mb-4 overflow-x-auto'>
                 <img src={card1} alt=''/>
                 <img src={card2} alt=''/>
                 <img src={card3} alt=''/>
